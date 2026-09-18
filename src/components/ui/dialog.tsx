@@ -54,6 +54,33 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
 }) {
+  function hasDialogTitle(nodes: React.ReactNode): boolean {
+    let found = false
+
+    React.Children.forEach(nodes, (child) => {
+      if (found) return
+      if (!React.isValidElement(child)) return
+
+      const childAny = child as any
+      const slot = childAny.props && childAny.props["data-slot"]
+
+      if (
+        child.type === DialogPrimitive.Title ||
+        child.type === DialogTitle ||
+        slot === "dialog-title"
+      ) {
+        found = true
+        return
+      }
+
+      if (childAny.props && childAny.props.children) {
+        if (hasDialogTitle(childAny.props.children)) found = true
+      }
+    })
+
+    return found
+  }
+
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -65,6 +92,9 @@ function DialogContent({
         )}
         {...props}
       >
+        {!hasDialogTitle(children) && (
+          <DialogPrimitive.Title className="sr-only">Dialog</DialogPrimitive.Title>
+        )}
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close

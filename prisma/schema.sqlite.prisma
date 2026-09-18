@@ -1,14 +1,11 @@
-// This is your Prisma schema file for the Employee Management System
-
+// Backup of the original SQLite Prisma schema
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  // Switched to PostgreSQL. Ensure your DATABASE_URL in .env points to a Postgres server.
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -16,7 +13,7 @@ model User {
   email     String   @unique
   name      String
   password  String
-  role      String   @default("EMPLOYEE") // ADMIN | EMPLOYEE
+  role      String   @default("EMPLOYEE")
   position  String?
   phone     String?
   avatar    String?

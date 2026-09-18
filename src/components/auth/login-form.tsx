@@ -69,7 +69,7 @@ export function LoginForm() {
             <div className="h-10 w-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
               <Clock className="h-6 w-6" />
             </div>
-            <span className="text-2xl font-bold">WorkTrack</span>
+            <span className="text-2xl font-bold">Knowledge Spatial</span>
           </div>
           <h1 className="text-3xl lg:text-4xl font-bold leading-tight mb-4">
             Employee Management, <br /> Simplified.
@@ -188,7 +188,7 @@ export function LoginForm() {
           </Card>
 
           <p className="text-center text-xs text-muted-foreground mt-6">
-            WorkTrack Employee Management System
+            Knowledge Spatial Employee Management System
           </p>
         </div>
       </div>

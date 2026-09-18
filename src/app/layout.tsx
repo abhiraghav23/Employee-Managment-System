@@ -16,12 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WorkTrack - Employee Management System",
+  title: "KNOWLEDGE SPATIAL - Employee Management System",
   description: "Comprehensive employee management system with attendance tracking, task management, and activity monitoring.",
   keywords: ["employee management", "attendance", "time tracking", "task management"],
   authors: [{ name: "WorkTrack" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "https://www.knowledgespatial.com/img/logo.png",
   },
 };
 

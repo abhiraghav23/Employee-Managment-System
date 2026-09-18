@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useFetch, apiPost, apiPatch } from "@/lib/use-fetch"
+import { useFetch, apiPost, apiPatch, apiDelete } from "@/lib/use-fetch"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -28,7 +28,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Search, UserPlus, Shield, Mail, Phone, Briefcase, Calendar, Activity, CheckSquare, Clock } from "lucide-react"
+import { Search, UserPlus, Shield, Mail, Phone, Briefcase, Calendar, Activity, CheckSquare, Clock, Trash } from "lucide-react"
 import { initials, formatDate, formatDateTime, formatTimeAgo, formatDuration, formatMinutes } from "@/lib/format"
 import { toast } from "sonner"
 
@@ -494,9 +494,59 @@ function UserDetailDialog({
               <Button variant="outline" size="sm" onClick={() => setEditOpen(true)}>
                 Edit User
               </Button>
+              <DeleteUserDialog userId={data.user.id} onDeleted={() => {
+                refetch()
+                onUpdated()
+              }} />
             </div>
           </>
         )}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function DeleteUserDialog({ userId, onDeleted }: { userId: string; onDeleted: () => void }) {
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  async function handleDelete() {
+    setLoading(true)
+    try {
+      await apiDelete(`/api/users/${userId}`)
+      toast.success("User deleted")
+      setOpen(false)
+      onDeleted()
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to delete user")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="text-rose-600 border-rose-200">
+          <Trash className="h-4 w-4 mr-2" />
+          Delete Account
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Delete Account</DialogTitle>
+          <DialogDescription>This action cannot be undone. Are you sure you want to delete this account?</DialogDescription>
+        </DialogHeader>
+        <div className="pt-4 flex justify-end">
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={loading}>
+              Cancel
+            </Button>
+            <Button type="button" className="ml-2 bg-rose-600 hover:bg-rose-700" onClick={handleDelete} disabled={loading}>
+              {loading ? "Deleting..." : "Delete Account"}
+            </Button>
+          </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   )

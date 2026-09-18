@@ -75,7 +75,7 @@ export function DashboardShell({
         <Clock className="h-5 w-5" />
       </div>
       <div>
-        <div className="font-bold text-sm leading-tight">WorkTrack</div>
+        <div className="font-bold text-sm leading-tight">Knowledge Spatial</div>
         <div className="text-[10px] text-muted-foreground leading-tight">{roleLabel}</div>
       </div>
     </div>
